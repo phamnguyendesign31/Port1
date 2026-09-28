@@ -1,0 +1,247 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>QR Code – Portfolio Preview</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;900&display=swap');
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: #0a0a0f;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 48px;
+      padding: 40px 20px;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 50% at 20% 30%, rgba(220, 38, 38, 0.12) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 80% 70%, rgba(239, 68, 68, 0.08) 0%, transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    header {
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    header h1 {
+      font-size: clamp(1.6rem, 5vw, 2.4rem);
+      font-weight: 900;
+      color: #fff;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    header h1 span {
+      background: linear-gradient(135deg, #ef4444, #f97316);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    header p {
+      margin-top: 8px;
+      color: rgba(255, 255, 255, 0.45);
+      font-size: 0.95rem;
+      font-weight: 300;
+    }
+
+    .cards {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 32px;
+      justify-content: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.10);
+      border-radius: 24px;
+      padding: 36px 32px 28px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      width: 300px;
+      backdrop-filter: blur(12px);
+      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 24px 60px rgba(239, 68, 68, 0.20);
+      border-color: rgba(239, 68, 68, 0.35);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      border-radius: 100px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .badge-https {
+      background: rgba(34, 197, 94, 0.15);
+      border: 1px solid rgba(34, 197, 94, 0.35);
+      color: #4ade80;
+    }
+
+    .badge-local {
+      background: rgba(59, 130, 246, 0.15);
+      border: 1px solid rgba(59, 130, 246, 0.35);
+      color: #60a5fa;
+    }
+
+    .badge-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+      box-shadow: 0 0 6px currentColor;
+      animation: pulse-dot 1.8s ease-in-out infinite;
+    }
+
+    @keyframes pulse-dot {
+
+      0%,
+      100% {
+        opacity: 1;
+        transform: scale(1)
+      }
+
+      50% {
+        opacity: 0.5;
+        transform: scale(0.7)
+      }
+    }
+
+    .qr-wrap {
+      background: #fff;
+      border-radius: 16px;
+      padding: 12px;
+      box-shadow: 0 0 40px rgba(239, 68, 68, 0.15);
+    }
+
+    .qr-wrap img {
+      display: block;
+      width: 200px;
+      height: 200px;
+      border-radius: 8px;
+    }
+
+    .card-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 0.04em;
+      text-align: center;
+    }
+
+    .card-url {
+      font-size: 0.72rem;
+      color: rgba(255, 255, 255, 0.35);
+      word-break: break-all;
+      text-align: center;
+      line-height: 1.5;
+      font-weight: 300;
+    }
+
+    .scan-hint {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: rgba(255, 255, 255, 0.40);
+      font-size: 0.82rem;
+      font-weight: 300;
+    }
+
+    .scan-hint svg {
+      opacity: 0.6;
+      flex-shrink: 0;
+    }
+
+    footer {
+      color: rgba(255, 255, 255, 0.20);
+      font-size: 0.78rem;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Portfolio <span>Preview</span></h1>
+    <p>Quet ma QR de xem tren dien thoai</p>
+  </header>
+  <div class="cards">
+    <div class="card">
+      <span class="badge badge-https"><span class="badge-dot"></span>HTTPS - Internet</span>
+      <div class="qr-wrap">
+        <img
+          src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https%3A%2F%2F44bc506fcdb861a4-115-77-48-253.serveousercontent.com&bgcolor=ffffff&color=111111&qzone=1&format=png"
+          alt="QR HTTPS" />
+      </div>
+      <div class="card-title">Public Link (HTTPS)</div>
+      <div class="card-url">https://44bc506fcdb861a4-115-77-48-253.serveousercontent.com</div>
+      <div class="scan-hint">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10" />
+          <path d="M12 8v4l3 3" />
+        </svg>
+        Truy cap qua mang bat ky
+      </div>
+    </div>
+    <div class="card">
+      <span class="badge badge-local"><span class="badge-dot"></span>HTTP - Wi-Fi</span>
+      <div class="qr-wrap">
+        <img
+          src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=http%3A%2F%2F192.168.1.29%3A3000&bgcolor=ffffff&color=111111&qzone=1&format=png"
+          alt="QR WiFi" />
+      </div>
+      <div class="card-title">Wi-Fi Local</div>
+      <div class="card-url">http://192.168.1.29:3000</div>
+      <div class="scan-hint">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M5 12.55a11 11 0 0 1 14.08 0" />
+          <path d="M1.42 9a16 16 0 0 1 21.16 0" />
+          <path d="M8.53 16.11a6 6 0 0 1 6.95 0" />
+          <circle cx="12" cy="20" r="1" />
+        </svg>
+        Dien thoai cung Wi-Fi
+      </div>
+    </div>
+  </div>
+  <footer>GMA Portfolio &middot; Scan &amp; Go</footer>
+</body>
+
+</html>
